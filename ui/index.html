@@ -3,16 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My UI Page</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Movie Mania</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <nav class="navbar">
+        <button class="navbutton">
+            All movies
+        </button>
+        <a href="/add" class="navbutton">
+            Add Movie
+        </a>
+        <button class="navbutton">
+            Search
+        </button>
+        <button class="navbutton">
+            Log in / Username
+        </button>
+    </nav>
     <header>
-        <h1>Welcome to My UI Page</h1>
+        <h1>Welcome to Movie Mania</h1>
     </header>
     <main>
-        <p>This is a simple user interface page.</p>
-        <button id="myButton">Click Me!</button>
+
     </main>
 </body>
 </html>

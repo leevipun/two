@@ -4,22 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login to Movie Mania</title>
+    <title>Register to Movie Mania</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
 <body>
     <div class="loginFormDiv">
         <main>
-            <form id="loginForm" method="POST" action="/login">
+            <form id="loginForm" action="/create" method="POST">
                 <header>
-                    <h1>Login to Movie Mania</h1>
+                    <h1>Register to Movie Mania</h1>
                 </header>
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
-                <button type="submit">Login</button>
+                <label for="password">password again:</label>
+                <input type="password" id="password" name="password_conf" required>
+                <button type="submit">Register now</button>
             </form>
         </main>
     </div>

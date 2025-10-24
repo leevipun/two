@@ -1,44 +1,44 @@
 create table users (
-  id integer primary key,
+  id SERIAL primary key,
   username text unique,
-  password_hash text,
-)
+  password_hash text
+);
 
 create table movies (
-  id integer primary key,
+  id SERIAL primary key,
   title text,
   description text,
   user_id integer references users,
-  status varchar,
-  created_at timestamp
-)
+  status varchar(50),
+  created_at timestamp DEFAULT CURRENT_TIMESTAMP
+);
 
 create table reviews (
-  id integer primary key,
-  title varchar,
+  id SERIAL primary key,
+  title varchar(255),
   body text,
   rating integer check (rating between 1 and 5),
   movie_id integer references movies,
-  user_id integer references users
-  created_at timestamp
-)
+  user_id integer references users,
+  created_at timestamp DEFAULT CURRENT_TIMESTAMP
+);
 
 create table pictures (
-  id integer primary key,
-  title varchar,
-  alt varchar,
+  id SERIAL primary key,
+  title varchar(255),
+  alt varchar(255),
   movie_id integer references movies,
-  created_at timestamp
-)
+  created_at timestamp DEFAULT CURRENT_TIMESTAMP
+);
 
 create table categories (
-  id integer primary key,
-  name varchar
-)
+  id SERIAL primary key,
+  name varchar(100)
+);
 
 create table movie_categories (
-  id integer primary key,
+  id SERIAL primary key,
   movie_id integer references movies,
   category_id integer references categories,
-  type text check (type in ('primary', 'secondary'))
-)
+  type varchar(10) check (type in ('primary', 'secondary'))
+);
