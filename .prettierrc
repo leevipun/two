@@ -1,0 +1,35 @@
+{
+    "semi": true,
+    "trailingComma": "es5",
+    "singleQuote": false,
+    "printWidth": 80,
+    "tabWidth": 4,
+    "useTabs": false,
+    "bracketSpacing": true,
+    "arrowParens": "avoid",
+    "htmlWhitespaceSensitivity": "css",
+    "endOfLine": "lf",
+    "overrides": [
+        {
+            "files": "*.html",
+            "options": {
+                "printWidth": 120,
+                "tabWidth": 4,
+                "htmlWhitespaceSensitivity": "ignore"
+            }
+        },
+        {
+            "files": "*.css",
+            "options": {
+                "printWidth": 100,
+                "tabWidth": 4
+            }
+        },
+        {
+            "files": ["*.py"],
+            "options": {
+                "tabWidth": 4
+            }
+        }
+    ]
+}

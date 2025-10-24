@@ -3,6 +3,7 @@ import sqlite3
 from werkzeug.security import check_password_hash
 import os
 import users
+import movies
 import db
 import favorites
 from dotenv import load_dotenv
@@ -17,6 +18,12 @@ app.secret_key = os.getenv("SECRET_KEY")
 
 @app.route('/')
 def index():
+    if "username" in session:
+        user = users.get_user(session["username"])
+        if user:
+            user_movies = movies.get_movies()
+            print(user_movies)
+            return render_template('index.html', movies=user_movies)
     return render_template('index.html')
 
 @app.route('/login', methods=["GET", "POST"])
@@ -83,6 +90,25 @@ def add():
     if request.method == "GET":
         return render_template("add.html")
     
+    # Handle POST request to add movie
+    movie_data = {
+        "title": request.form.get("title"),
+        "year": request.form.get("year") or None,
+        "duration": request.form.get("duration") or None,
+        "director": request.form.get("director") or None,
+        "genre": request.form.get("genre") or None,
+        "watch_date": request.form.get("watchDate") or None,
+        "rating": request.form.get("rating") or None,
+        "watched_with": request.form.get("watchedWith") or None,
+        "platform": request.form.get("platform") or None,
+        "review": request.form.get("review") or None,
+        "favorite": bool(request.form.get("favorite")),
+        "rewatchable": bool(request.form.get("rewatchable"))
+    }
+    
+    movies.add_movie(user["id"], movie_data)
+    flash("Movie added successfully!", "success")
+    return redirect("/")
 
 @app.route('/favorites')
 def user_favorites():
@@ -108,6 +134,19 @@ def toggle_favorite_route(movie_id):
     is_now_favorite = favorites.toggle_favorite(user["id"], movie_id)
     return jsonify({"is_favorite": is_now_favorite})
 
+@app.route('/movie/<int:movie_id>')
+def movie_detail(movie_id):
+    user_id = None
+    if "username" in session:
+        user = users.get_user(session["username"])
+        user_id = user["id"] if user else None
+    
+    movie = movies.get_movie_by_id(movie_id, user_id)
+    if not movie:
+        flash("Movie not found")
+        return redirect("/")
+    
+    return render_template('movie_detail.html', movie=movie)
 
 if __name__ == '__main__':
     app.run(debug=True)
