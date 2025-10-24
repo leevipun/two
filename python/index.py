@@ -70,7 +70,7 @@ def create():
     except sqlite3.IntegrityError:
         flash("VIRHE: tunnus on jo varattu")
         return redirect("/register")
-
+    session["username"] = username
     return redirect("/")
         
 @app.route('/add', methods=["POST", "GET"])

@@ -13,9 +13,11 @@
         <a href="/" class="navbutton">
             All Movies
         </a>
+        {% if session.username %}
         <a href="/add" class="navbutton">
             Add Movie
         </a>
+        {% endif %}
         <a href="/search" class="navbutton">
             Search
         </a>
