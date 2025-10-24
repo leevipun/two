@@ -9,17 +9,50 @@
 </head>
 
 <body>
+    <nav class="navbar">
+        <a href="/" class="navbutton">
+            All Movies
+        </a>
+        <a href="/search" class="navbutton">
+            Search
+        </a>
+        <a href="/login" class="navbutton active">
+            Login
+        </a>
+    </nav>
+
     <div class="loginFormDiv">
         <main>
             <form id="loginForm" method="POST" action="/login">
                 <header>
                     <h1>Login to Movie Mania</h1>
+                    <p>Welcome back! Please sign in to your account</p>
                 </header>
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-                <button type="submit">Login</button>
+                
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="flash-messages">
+                            {% for message in messages %}
+                                <div class="flash-message error">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+                <div class="form-footer">
+                    <p>Don't have an account? <a href="/register">Register here</a></p>
+                </div>
             </form>
         </main>
     </div>

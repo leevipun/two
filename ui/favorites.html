@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Favorites - Movie Mania</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="navbutton">
+            All Movies
+        </a>
+        <a href="/add" class="navbutton">
+            Add Movie
+        </a>
+        <a href="/search" class="navbutton">
+            Search
+        </a>
+        <a href="/favorites" class="navbutton active">
+            Favorites
+        </a>
+        <a href="/login" class="navbutton">
+            Login
+        </a>
+    </nav>
+    
+    <header>
+        <h1>My Favorite Movies ⭐</h1>
+        <p>Your personal collection of favorite films</p>
+    </header>
+    
+    <main>
+        {% if favorites %}
+            <div class="movies-grid">
+                {% for movie in favorites %}
+                <div class="movie-card">
+                    <div class="movie-header">
+                        <h3>{{ movie.title }}</h3>
+                        <div class="movie-year">{{ movie.year or 'Unknown' }}</div>
+                    </div>
+                    
+                    <div class="movie-details">
+                        {% if movie.director %}
+                            <p><strong>Director:</strong> {{ movie.director }}</p>
+                        {% endif %}
+                        {% if movie.genre %}
+                            <p><strong>Genre:</strong> {{ movie.genre.title() }}</p>
+                        {% endif %}
+                        {% if movie.duration %}
+                            <p><strong>Duration:</strong> {{ movie.duration }} min</p>
+                        {% endif %}
+                        {% if movie.rating %}
+                            <p><strong>Rating:</strong> {{ movie.rating }}/10</p>
+                        {% endif %}
+                        {% if movie.platform %}
+                            <p><strong>Platform:</strong> {{ movie.platform.title() }}</p>
+                        {% endif %}
+                    </div>
+                    
+                    {% if movie.review %}
+                        <div class="movie-review">
+                            <strong>Review:</strong>
+                            <p>{{ movie.review }}</p>
+                        </div>
+                    {% endif %}
+                    
+                    <div class="movie-meta">
+                        <small>Added to favorites: {{ movie.favorited_at.strftime('%B %d, %Y') if movie.favorited_at else 'Unknown' }}</small>
+                    </div>
+                    
+                    <div class="movie-actions">
+                        <button onclick="toggleFavorite('{{ movie.id }}')" class="btn-secondary">
+                            Remove from Favorites
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <h3>No favorite movies yet</h3>
+                <p>Start adding movies to your favorites by clicking the star when viewing movies!</p>
+                <a href="/add" class="btn-primary">Add Your First Movie</a>
+            </div>
+        {% endif %}
+    </main>
+</body>
+</html>

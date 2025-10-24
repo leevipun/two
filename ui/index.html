@@ -4,28 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Mania</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <nav class="navbar">
-        <button class="navbutton">
-            All movies
-        </button>
+        <a href="/" class="navbutton active">
+            All Movies
+        </a>
         <a href="/add" class="navbutton">
             Add Movie
         </a>
-        <button class="navbutton">
+        <a href="/search" class="navbutton">
             Search
-        </button>
-        <button class="navbutton">
-            Log in / Username
-        </button>
+        </a>
+        <a href="/login" class="navbutton">
+            Login
+        </a>
     </nav>
+    
     <header>
         <h1>Welcome to Movie Mania</h1>
+        <p>Your personal movie tracking companion</p>
     </header>
+    
     <main>
-
+        <div class="welcome-content">
+            <div class="feature-cards">
+                <div class="feature-card">
+                    <h3>📚 Track Movies</h3>
+                    <p>Keep a record of all the movies you've watched with detailed information and personal ratings.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⭐ Rate & Review</h3>
+                    <p>Rate your movies and write reviews to remember what you thought about each film.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔍 Search & Discover</h3>
+                    <p>Easily find movies in your collection and discover new films to watch.</p>
+                </div>
+            </div>
+            
+            <div class="quick-actions">
+                <h3>Get Started</h3>
+                <div class="action-buttons">
+                    <a href="/add" class="btn-primary">Add Your First Movie</a>
+                    <a href="/register" class="btn-secondary">Create Account</a>
+                </div>
+            </div>
+        </div>
     </main>
 </body>
 </html>

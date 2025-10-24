@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, flash, redirect, session
+from flask import Flask, render_template, request, flash, redirect, session, jsonify, get_flashed_messages
 import sqlite3
 from werkzeug.security import check_password_hash
 import os
 import users
 import db
+import favorites
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -21,6 +22,8 @@ def index():
 @app.route('/login', methods=["GET", "POST"])
 def login():
     if request.method == "GET":
+        # Clear any existing flash messages to ensure fresh start
+        get_flashed_messages()
         return render_template('login.html')
     
     username = request.form["username"]
@@ -49,6 +52,8 @@ def logout():
 
 @app.route('/register')
 def register():
+    # Clear any existing flash messages to ensure fresh start
+    get_flashed_messages()
     return render_template('register.html')
 
 @app.route('/create', methods=["POST"])
@@ -68,6 +73,40 @@ def create():
 
     return redirect("/")
         
+@app.route('/add', methods=["POST", "GET"])
+def add():
+    if "username" not in session:
+        return redirect("/login")
+    user = users.get_user(session["username"])
+    if not user:
+        return redirect("/login")
+    if request.method == "GET":
+        return render_template("add.html")
+    
+
+@app.route('/favorites')
+def user_favorites():
+    if "username" not in session:
+        return redirect("/login")
+    
+    user = users.get_user(session["username"])
+    if not user:
+        return redirect("/login")
+    
+    user_favorites_list = favorites.get_user_favorites(user["id"])
+    return render_template('favorites.html', favorites=user_favorites_list)
+
+@app.route('/toggle_favorite/<int:movie_id>', methods=["POST"])
+def toggle_favorite_route(movie_id):
+    if "username" not in session:
+        return jsonify({"error": "Not logged in"}), 401
+    
+    user = users.get_user(session["username"])
+    if not user:
+        return jsonify({"error": "User not found"}), 401
+    
+    is_now_favorite = favorites.toggle_favorite(user["id"], movie_id)
+    return jsonify({"is_favorite": is_now_favorite})
 
 
 if __name__ == '__main__':

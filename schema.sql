@@ -6,10 +6,19 @@ create table users (
 
 create table movies (
   id SERIAL primary key,
-  title text,
-  description text,
+  title text NOT NULL,
+  year integer,
+  duration integer,
+  director text,
+  genre varchar(50),
+  watch_date date,
+  rating decimal(3,1) check (rating between 1 and 10),
+  watched_with text,
+  platform varchar(50),
+  review text,
+  favorite boolean DEFAULT false,
+  rewatchable boolean DEFAULT false,
   user_id integer references users,
-  status varchar(50),
   created_at timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -41,4 +50,12 @@ create table movie_categories (
   movie_id integer references movies,
   category_id integer references categories,
   type varchar(10) check (type in ('primary', 'secondary'))
+);
+
+create table user_favorites (
+  id SERIAL primary key,
+  user_id integer references users,
+  movie_id integer references movies,  
+  created_at timestamp DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE(user_id, movie_id)
 );
