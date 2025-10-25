@@ -1,61 +1,47 @@
-create table users (
-  id SERIAL primary key,
-  username text unique,
-  password_hash text
+-- SQLite-compatible schema
+CREATE TABLE users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  username TEXT UNIQUE,
+  password_hash TEXT
 );
 
-create table movies (
-  id SERIAL primary key,
-  title text NOT NULL,
-  year integer,
-  duration integer,
-  director text,
-  genre varchar(50),
-  watch_date date,
-  rating decimal(3,1) check (rating between 1 and 10),
-  watched_with text,
-  platform varchar(50),
-  review text,
-  favorite boolean DEFAULT false,
-  rewatchable boolean DEFAULT false,
-  user_id integer references users,
-  created_at timestamp DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE categories (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name VARCHAR(100) UNIQUE
 );
 
-create table reviews (
-  id SERIAL primary key,
-  title varchar(255),
-  body text,
-  rating integer check (rating between 1 and 5),
-  movie_id integer references movies,
-  user_id integer references users,
-  created_at timestamp DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE streaming_platforms (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name VARCHAR(100) UNIQUE
 );
 
-create table pictures (
-  id SERIAL primary key,
-  title varchar(255),
-  alt varchar(255),
-  movie_id integer references movies,
-  created_at timestamp DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE directors (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name VARCHAR(255) UNIQUE
 );
 
-create table categories (
-  id SERIAL primary key,
-  name varchar(100)
+CREATE TABLE movies (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
+  year INTEGER,
+  duration INTEGER,
+  category_id INTEGER REFERENCES categories(id),
+  streaming_platform_id INTEGER REFERENCES streaming_platforms(id),
+  director_id INTEGER REFERENCES directors(id),
+  watch_date DATE,
+  rating DECIMAL(3,1) CHECK (rating BETWEEN 1 AND 10),
+  watched_with TEXT,
+  review TEXT,
+  favorite BOOLEAN DEFAULT 0,
+  rewatchable BOOLEAN DEFAULT 0,
+  user_id INTEGER REFERENCES users(id),
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-create table movie_categories (
-  id SERIAL primary key,
-  movie_id integer references movies,
-  category_id integer references categories,
-  type varchar(10) check (type in ('primary', 'secondary'))
-);
-
-create table user_favorites (
-  id SERIAL primary key,
-  user_id integer references users,
-  movie_id integer references movies,  
-  created_at timestamp DEFAULT CURRENT_TIMESTAMP,
+CREATE TABLE user_favorites (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER REFERENCES users(id),
+  movie_id INTEGER REFERENCES movies(id),  
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   UNIQUE(user_id, movie_id)
 );

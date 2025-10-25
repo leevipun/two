@@ -1,138 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Movie - Movie Mania</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
-<body>
-    <nav class="navbar">
-        <a href="/" class="navbutton">
-            All Movies
-        </a>
-        <a href="/add" class="navbutton active">
-            Add Movie
-        </a>
-        <a href="/search" class="navbutton">
-            Search
-        </a>
-        <a href="/login" class="navbutton">
-            Login
-        </a>
-    </nav>
-    
-    <header>
-        <h1>Add Watched Movie</h1>
-        <p>Save your watched movie to your library</p>
-    </header>
-    
-    <main>
-        <form id="addMovieForm" class="add-movie-form" method="POST" action="/add">
-            <div class="form-section">
-                <h3>Basic Information</h3>
-                
-                <div class="form-group">
-                    <label for="title">Movie Title *</label>
-                    <input type="text" id="title" name="title" required placeholder="e.g. The Shawshank Redemption">
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="year">Release Year</label>
-                        <input type="number" id="year" name="year" min="1800" max="2030" placeholder="1994">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="duration">Duration (min)</label>
-                        <input type="number" id="duration" name="duration" min="1" max="999" placeholder="142">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="director">Director</label>
-                    <input type="text" id="director" name="director" placeholder="e.g. Frank Darabont">
-                </div>
-                
-                <div class="form-group">
-                    <label for="genre">Genre</label>
-                    <select id="genre" name="genre">
-                        <option value="">Select Genre</option>
-                        <option value="action">Action</option>
-                        <option value="drama">Drama</option>
-                        <option value="comedy">Comedy</option>
-                        <option value="horror">Horror</option>
-                        <option value="sci-fi">Sci-Fi</option>
-                        <option value="romance">Romance</option>
-                        <option value="thriller">Thriller</option>
-                        <option value="documentary">Documentary</option>
-                        <option value="animation">Animation</option>
-                        <option value="war">War</option>
-                    </select>
-                </div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Add Movie - Movie Mania</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    </head>
+    <body>
+        <nav class="navbar">
+            <a href="/" class="navbutton">All Movies</a>
+            <a href="/add" class="navbutton active">Add Movie</a>
+            {% if session.username %}
+            <a href="/favorites" class="navbutton">Favorites</a>
+            <a href="/logout" class="navbutton">Logout</a>
+            {% else %}
+            <a href="/login" class="navbutton">Login</a>
+            {% endif %}
+        </nav>
+
+        <header>
+            <h1>Add Watched Movie</h1>
+            <p>Save your watched movie to your library</p>
+        </header>
+
+        <main>
+            {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                <div class="flash-message {{ category if category else 'info' }}">{{ message }}</div>
+                {% endfor %}
             </div>
-            
-            <div class="form-section">
-                <h3>Viewing Details</h3>
-                
-                <div class="form-row">
+            {% endif %} {% endwith %}
+
+            <form id="addMovieForm" class="add-movie-form" method="POST" action="/add">
+                <div class="form-section">
+                    <h3>Basic Information</h3>
+
                     <div class="form-group">
-                        <label for="watchDate">Watch Date</label>
-                        <input type="date" id="watchDate" name="watchDate">
+                        <label for="title">Movie Title *</label>
+                        <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            required
+                            placeholder="e.g. The Shawshank Redemption"
+                        />
                     </div>
-                    
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="year">Release Year</label>
+                            <input type="number" id="year" name="year" min="1800" max="2030" placeholder="1994" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="duration">Duration (min)</label>
+                            <input type="number" id="duration" name="duration" min="1" max="999" placeholder="142" />
+                        </div>
+                    </div>
+
                     <div class="form-group">
-                        <label for="rating">Rating (1-10)</label>
-                        <input type="number" id="rating" name="rating" min="1" max="10" step="0.1" placeholder="8.5">
+                        <label for="director">Director</label>
+                        <input type="text" id="director" name="director" placeholder="e.g. Frank Darabont" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="genre">Genre</label>
+                        <select id="genre" name="genre">
+                            <option value="">Select Genre</option>
+                            {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                 </div>
-                
-                <div class="form-group">
-                    <label for="watchedWith">Watched With</label>
-                    <input type="text" id="watchedWith" name="watchedWith" placeholder="e.g. Family, Friends, Alone">
+
+                <div class="form-section">
+                    <h3>Viewing Details</h3>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="watchDate">Watch Date</label>
+                            <input type="date" id="watchDate" name="watchDate" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="rating">Rating (1-10)</label>
+                            <input
+                                type="number"
+                                id="rating"
+                                name="rating"
+                                min="1"
+                                max="10"
+                                step="0.1"
+                                placeholder="8.5"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="watchedWith">Watched With</label>
+                        <input
+                            type="text"
+                            id="watchedWith"
+                            name="watchedWith"
+                            placeholder="e.g. Family, Friends, Alone"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="platform">Streaming Platform</label>
+                        <select id="platform" name="platform">
+                            <option value="">Select Platform</option>
+                            {% for platform in platforms %}
+                            <option value="{{ platform.id }}">{{ platform.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                 </div>
-                
-                <div class="form-group">
-                    <label for="platform">Streaming Platform</label>
-                    <select id="platform" name="platform">
-                        <option value="">Select Platform</option>
-                        <option value="netflix">Netflix</option>
-                        <option value="hbo">HBO Max</option>
-                        <option value="disney">Disney+</option>
-                        <option value="amazon">Amazon Prime</option>
-                        <option value="hulu">Hulu</option>
-                        <option value="apple">Apple TV+</option>
-                        <option value="theater">Movie Theater</option>
-                        <option value="dvd">DVD/Blu-ray</option>
-                        <option value="other">Other</option>
-                    </select>
+
+                <div class="form-section">
+                    <h3>Additional Details</h3>
+
+                    <div class="form-group">
+                        <label for="review">Review/Notes</label>
+                        <textarea
+                            id="review"
+                            name="review"
+                            rows="4"
+                            placeholder="Share your thoughts about the movie..."
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="favorite" name="favorite" />
+                        <label for="favorite">Mark as Favorite ⭐</label>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="rewatchable" name="rewatchable" />
+                        <label for="rewatchable">Would watch again</label>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="form-section">
-                <h3>Additional Details</h3>
-                
-                <div class="form-group">
-                    <label for="review">Review/Notes</label>
-                    <textarea id="review" name="review" rows="4" placeholder="Share your thoughts about the movie..."></textarea>
+
+                <div class="form-actions">
+                    <button type="reset" class="btn-secondary">Clear Form</button>
+                    <button type="submit" class="btn-primary">Save Movie</button>
                 </div>
-                
-                <div class="form-group checkbox-group">
-                    <input type="checkbox" id="favorite" name="favorite">
-                    <label for="favorite">Mark as Favorite ⭐</label>
-                </div>
-                
-                <div class="form-group checkbox-group">
-                    <input type="checkbox" id="rewatchable" name="rewatchable">
-                    <label for="rewatchable">Would watch again</label>
-                </div>
-            </div>
-            
-            <div class="form-actions">
-                <button type="reset" class="btn-secondary">Clear Form</button>
-                <button type="submit" class="btn-primary">Save Movie</button>
-            </div>
-        </form>
-    </main>
-</body>
+            </form>
+        </main>
+    </body>
 </html>

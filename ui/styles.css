@@ -1,6 +1,6 @@
 /* Basic styling for the application */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -14,32 +14,31 @@ main {
     background-color: white;
     padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 header {
     text-align: center;
     margin-bottom: 2rem;
-    color: #333;
+    color: whitesmoke;
 }
 
 header h1 {
     margin: 0;
     font-size: 2.5rem;
     font-weight: 600;
-    background: linear-gradient(45deg, #667eea, #764ba2);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
 header p {
     margin: 0.5rem 0 0 0;
-    color: #666;
+    color: whitesmoke;
     font-size: 1.1rem;
 }
 
-button, .btn-primary, .btn-secondary {
+button,
+.btn-primary,
+.btn-secondary {
     background-color: #007bff;
     color: white;
     padding: 12px 24px;
@@ -54,10 +53,12 @@ button, .btn-primary, .btn-secondary {
     text-align: center;
 }
 
-button:hover, .btn-primary:hover, .btn-secondary:hover {
+button:hover,
+.btn-primary:hover,
+.btn-secondary:hover {
     background-color: #0056b3;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,123,255,0.3);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
 }
 
 /* Welcome page styling */
@@ -82,7 +83,7 @@ button:hover, .btn-primary:hover, .btn-secondary:hover {
 
 .feature-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,123,255,0.15);
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.15);
 }
 
 .feature-card h3 {
@@ -155,10 +156,10 @@ label {
     font-size: 0.95rem;
 }
 
-input[type="text"], 
-input[type="password"], 
-input[type="number"], 
-input[type="date"], 
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
 select,
 textarea {
     width: 100%;
@@ -171,15 +172,15 @@ textarea {
     box-sizing: border-box;
 }
 
-input[type="text"]:focus, 
-input[type="password"]:focus, 
-input[type="number"]:focus, 
-input[type="date"]:focus, 
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
 select:focus,
 textarea:focus {
     outline: none;
     border-color: #007bff;
-    box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
     background-color: #fff;
 }
 
@@ -227,12 +228,12 @@ textarea {
     font-size: 1.1rem;
     font-weight: 600;
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,123,255,0.3);
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
 }
 
 .btn-primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0,123,255,0.4);
+    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
 }
 
 .btn-secondary {
@@ -310,19 +311,18 @@ textarea {
 /* Navigation styling */
 .navbar {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     width: 100%;
     padding: 1rem 0;
-    background: rgba(255,255,255,0.1);
     backdrop-filter: blur(10px);
     margin-bottom: 0;
 }
 
 .navbutton {
     padding: 12px 20px;
-    border: 1px solid rgba(255,255,255,0.3);
-    background-color: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.1);
     border-radius: 25px;
     color: white;
     text-decoration: none;
@@ -333,15 +333,15 @@ textarea {
 }
 
 .navbutton:hover {
-    background-color: rgba(255,255,255,0.2);
-    border-color: rgba(255,255,255,0.5);
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
     transform: translateY(-2px);
 }
 
 .navbutton.active {
-    background-color: rgba(255,255,255,0.9);
+    background-color: rgba(255, 255, 255, 0.9);
     color: #333;
-    border-color: rgba(255,255,255,0.9);
+    border-color: rgba(255, 255, 255, 0.9);
 }
 
 /* Responsive design */
@@ -350,40 +350,40 @@ textarea {
         margin: 1rem;
         padding: 1.5rem;
     }
-    
+
     .form-row {
         grid-template-columns: 1fr;
     }
-    
+
     .form-actions {
         flex-direction: column;
     }
-    
+
     .navbar {
         flex-wrap: wrap;
         gap: 0.5rem;
     }
-    
+
     .navbutton {
         font-size: 0.9rem;
         padding: 10px 16px;
     }
-    
+
     header h1 {
         font-size: 2rem;
     }
-    
+
     .feature-cards {
         grid-template-columns: 1fr;
         gap: 1.5rem;
         margin: 2rem 0;
     }
-    
+
     .action-buttons {
         flex-direction: column;
         align-items: center;
     }
-    
+
     .action-buttons a {
         width: 200px;
     }
@@ -405,7 +405,7 @@ form:not(.add-movie-form) {
     background: white;
     padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     max-width: 400px;
     width: 100%;
 }
@@ -451,12 +451,12 @@ form:not(.add-movie-form) .form-group {
     padding: 1.5rem;
     border-left: 4px solid #007bff;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .movie-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,123,255,0.15);
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.15);
 }
 
 .movie-header {
@@ -565,18 +565,18 @@ form:not(.add-movie-form) .form-group {
         gap: 1.5rem;
         margin: 1rem 0;
     }
-    
+
     .movie-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.5rem;
     }
-    
+
     .movie-year {
         margin-left: 0;
         align-self: flex-start;
     }
-    
+
     .movie-actions {
         justify-content: center;
     }
@@ -594,7 +594,7 @@ form:not(.add-movie-form) .form-group {
     background: #fff;
     border-radius: 16px;
     padding: 1.5rem;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     border: 1px solid #f0f0f0;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -603,7 +603,7 @@ form:not(.add-movie-form) .form-group {
 }
 
 .movie-overview-card::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -614,7 +614,7 @@ form:not(.add-movie-form) .form-group {
 
 .movie-overview-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
     border-color: #667eea;
 }
 
@@ -733,7 +733,7 @@ form:not(.add-movie-form) .form-group {
     background-color: white;
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
 }
 
 .movie-hero {
@@ -747,7 +747,7 @@ form:not(.add-movie-form) .form-group {
 }
 
 .movie-hero::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -760,14 +760,14 @@ form:not(.add-movie-form) .form-group {
 .movie-poster-placeholder {
     width: 120px;
     height: 180px;
-    background: rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 3rem;
     backdrop-filter: blur(10px);
-    border: 2px solid rgba(255,255,255,0.3);
+    border: 2px solid rgba(255, 255, 255, 0.3);
     z-index: 1;
 }
 
@@ -788,17 +788,17 @@ form:not(.add-movie-form) .form-group {
     margin: 0;
     font-size: 2.5rem;
     font-weight: 700;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .movie-year-badge {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.2);
     padding: 0.5rem 1rem;
     border-radius: 25px;
     font-size: 1rem;
     font-weight: 600;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .rating-display {
@@ -812,13 +812,13 @@ form:not(.add-movie-form) .form-group {
 .star {
     font-size: 1.5rem;
     margin-right: 0.2rem;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .rating-number {
     font-size: 1.2rem;
     font-weight: 600;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .movie-badges {
@@ -833,7 +833,7 @@ form:not(.add-movie-form) .form-group {
     font-size: 0.9rem;
     font-weight: 600;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .genre-badge {
@@ -861,9 +861,9 @@ form:not(.add-movie-form) .form-group {
 }
 
 .btn-favorite {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.2);
     color: white;
-    border: 2px solid rgba(255,255,255,0.3);
+    border: 2px solid rgba(255, 255, 255, 0.3);
     padding: 1rem 2rem;
     border-radius: 50px;
     font-size: 1.1rem;
@@ -874,10 +874,10 @@ form:not(.add-movie-form) .form-group {
 }
 
 .btn-favorite:hover {
-    background: rgba(255,255,255,0.3);
-    border-color: rgba(255,255,255,0.5);
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
 .movie-details-grid {
@@ -956,12 +956,30 @@ form:not(.add-movie-form) .form-group {
 }
 
 /* Platform-specific styling */
-.platform-netflix { color: #e50914; font-weight: 600; }
-.platform-hbo { color: #9a4bbc; font-weight: 600; }
-.platform-disney { color: #113ccf; font-weight: 600; }
-.platform-amazon { color: #ff9900; font-weight: 600; }
-.platform-apple { color: #007aff; font-weight: 600; }
-.platform-theater { color: #8b5a3c; font-weight: 600; }
+.platform-netflix {
+    color: #e50914;
+    font-weight: 600;
+}
+.platform-hbo {
+    color: #9a4bbc;
+    font-weight: 600;
+}
+.platform-disney {
+    color: #113ccf;
+    font-weight: 600;
+}
+.platform-amazon {
+    color: #ff9900;
+    font-weight: 600;
+}
+.platform-apple {
+    color: #007aff;
+    font-weight: 600;
+}
+.platform-theater {
+    color: #8b5a3c;
+    font-weight: 600;
+}
 
 /* Responsive design for movie detail */
 @media (max-width: 768px) {
@@ -970,30 +988,30 @@ form:not(.add-movie-form) .form-group {
         text-align: center;
         padding: 2rem 1rem;
     }
-    
+
     .movie-title-section {
         justify-content: center;
     }
-    
+
     .movie-title-section h1 {
         font-size: 2rem;
     }
-    
+
     .movie-badges {
         justify-content: center;
     }
-    
+
     .movies-overview-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
         margin: 1rem 0;
     }
-    
+
     .movie-details-grid {
         grid-template-columns: 1fr;
         padding: 1rem;
     }
-    
+
     .detail-item {
         flex-direction: column;
         align-items: flex-start;

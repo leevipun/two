@@ -4,6 +4,8 @@ from werkzeug.security import check_password_hash
 import os
 import users
 import movies
+import categories
+import platforms
 import db
 import favorites
 from dotenv import load_dotenv
@@ -18,96 +20,114 @@ app.secret_key = os.getenv("SECRET_KEY")
 
 @app.route('/')
 def index():
+    user_movies = []
     if "username" in session:
         user = users.get_user(session["username"])
         if user:
             user_movies = movies.get_movies()
-            print(user_movies)
-            return render_template('index.html', movies=user_movies)
-    return render_template('index.html')
+    return render_template('index.html', movies=user_movies)
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        # Clear any existing flash messages to ensure fresh start
         get_flashed_messages()
         return render_template('login.html')
     
-    username = request.form["username"]
-    password = request.form["password"]
+    username = request.form.get("username", "").strip()
+    password = request.form.get("password", "")
 
-    sql = "SELECT password_hash FROM users WHERE username = ?"
-    result = db.query(sql, [username])
-    
-    if not result:
-        flash("VIRHE: väärä tunnus tai salasana")
+    if not username or not password:
+        flash("Please enter both username and password")
         return redirect("/login")
-    
-    password_hash = result[0][0]
 
-    if check_password_hash(password_hash, password):
+    user = users.get_user(username)
+    
+    if not user:
+        flash("Invalid username or password")
+        return redirect("/login")
+
+    if check_password_hash(user['password_hash'], password):
         session["username"] = username
         return redirect("/")
     
-    flash("VIRHE: väärä tunnus tai salasana")
+    flash("Invalid username or password")
     return redirect("/login")
 
 @app.route('/logout')
 def logout():
-    del session["username"]
+    if "username" in session:
+        del session["username"]
     return redirect("/")
 
 @app.route('/register')
 def register():
-    # Clear any existing flash messages to ensure fresh start
     get_flashed_messages()
     return render_template('register.html')
 
 @app.route('/create', methods=["POST"])
 def create():
-    username = request.form["username"]
-    password = request.form["password"]
-    password_conf = request.form["password_conf"]
+    username = request.form.get("username", "").strip()
+    password = request.form.get("password", "")
+    password_conf = request.form.get("password_conf", "")
+
+    if not username or not password:
+        flash("Username and password are required")
+        return redirect("/register")
 
     if password != password_conf:
-        flash("Salasanat eivät täsmää")
+        flash("Passwords do not match")
         return redirect("/register")
+    
     try:
         users.create_user(username, password)
+        session["username"] = username
+        return redirect("/")
     except sqlite3.IntegrityError:
-        flash("VIRHE: tunnus on jo varattu")
+        flash("Username already exists")
         return redirect("/register")
-    session["username"] = username
-    return redirect("/")
         
 @app.route('/add', methods=["POST", "GET"])
 def add():
     if "username" not in session:
         return redirect("/login")
+    
     user = users.get_user(session["username"])
     if not user:
         return redirect("/login")
+        
     if request.method == "GET":
-        return render_template("add.html")
+        category_list = categories.get_categories()
+        platform_list = platforms.get_platforms()
+        return render_template("add.html", categories=category_list, platforms=platform_list)
     
     # Handle POST request to add movie
     movie_data = {
-        "title": request.form.get("title"),
+        "title": request.form.get("title", "").strip(),
         "year": request.form.get("year") or None,
         "duration": request.form.get("duration") or None,
-        "director": request.form.get("director") or None,
+        "director": request.form.get("director", "").strip() or None,
         "genre": request.form.get("genre") or None,
         "watch_date": request.form.get("watchDate") or None,
         "rating": request.form.get("rating") or None,
-        "watched_with": request.form.get("watchedWith") or None,
+        "watched_with": request.form.get("watchedWith", "").strip() or None,
         "platform": request.form.get("platform") or None,
-        "review": request.form.get("review") or None,
+        "review": request.form.get("review", "").strip() or None,
         "favorite": bool(request.form.get("favorite")),
         "rewatchable": bool(request.form.get("rewatchable"))
     }
     
-    movies.add_movie(user["id"], movie_data)
-    flash("Movie added successfully!", "success")
+    if not movie_data["title"]:
+        flash("Movie title is required", "error")
+        category_list = categories.get_categories()
+        platform_list = platforms.get_platforms()
+        return render_template("add.html", categories=category_list, platforms=platform_list)
+    
+    try:
+        movies.add_movie(user["id"], movie_data)
+        flash("Movie added successfully!", "success")
+    except Exception as e:
+        flash(f"Error adding movie: {str(e)}", "error")
+    
     return redirect("/")
 
 @app.route('/favorites')
@@ -147,6 +167,10 @@ def movie_detail(movie_id):
         return redirect("/")
     
     return render_template('movie_detail.html', movie=movie)
+
+@app.route('/search')
+def search():
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -53,3 +53,5 @@ htmlcov/
 # Temporary files
 *.tmp
 *.temp
+*.txt
+requirements.txt
